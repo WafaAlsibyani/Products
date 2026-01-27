@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 
-const FiltersCheckbox = ({ label, checked, onChange }) => {
+const FiltersCheckbox = ({label, checked, onChange}) => {
     return (
         <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -20,4 +19,3 @@ const FiltersCheckbox = ({ label, checked, onChange }) => {
 };
 
 export default FiltersCheckbox;
-// from-[#FA2E49] via-[#F9336A] to-[#F73386]

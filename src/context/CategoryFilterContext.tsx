@@ -1,29 +1,44 @@
 // src/context/CategoryFilterContext.jsx
-import { createContext, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { CategoryName } from "../features/filters/domain/category.types";
 import { toggleArrayItem } from "../utils/toggleArrayItem";
 
-const CategoryFilterContext = createContext(null);
+interface CategoryFilterContextType {
+  selectedCategories: CategoryName[];
+  toggleCategory: (categoryName: CategoryName) => void;
+  toggleCategoryGroup: (categoryNames: CategoryName[]) => void;
+}
 
-export const CategoryFilterProvider = ({ children }) => {
-  const [selectedCategories, setSelectedCategories] = useState([]);
+const CategoryFilterContext = createContext<CategoryFilterContextType | null>(
+  null,
+);
 
-  const toggleCategory = (categoryName) => {
+interface ProviderProps {
+  children: ReactNode;
+}
+
+export const CategoryFilterProvider = ({ children }: ProviderProps) => {
+  const [selectedCategories, setSelectedCategories] = useState<CategoryName[]>(
+    [],
+  );
+
+  const toggleCategory = (categoryName: CategoryName) => {
     setSelectedCategories((previousSelected) =>
-      toggleArrayItem(previousSelected, categoryName)
+      toggleArrayItem(previousSelected, categoryName),
     );
   };
 
   // هذه للفلاتر اللي تختار "مجموعة" كاملة (مثل: نساء، رجال)
-  const toggleCategoryGroup = (categoryNames) => {
+  const toggleCategoryGroup = (categoryNames: CategoryName[]) => {
     setSelectedCategories((previousSelected) => {
       const areAllGroupCategoriesSelected = categoryNames.every(
-        (categoryName) => previousSelected.includes(categoryName)
+        (categoryName) => previousSelected.includes(categoryName),
       );
 
       if (areAllGroupCategoriesSelected) {
         // إذا كلها محددة → نشيلها
         return previousSelected.filter(
-          (categoryName) => !categoryNames.includes(categoryName)
+          (categoryName) => !categoryNames.includes(categoryName),
         );
       }
 
@@ -57,7 +72,7 @@ export const useCategoryFilter = () => {
   const contextValue = useContext(CategoryFilterContext);
   if (!contextValue) {
     throw new Error(
-      "useCategoryFilter must be used within a CategoryFilterProvider"
+      "useCategoryFilter must be used within a CategoryFilterProvider",
     );
   }
   return contextValue;

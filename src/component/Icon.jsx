@@ -1,12 +1,16 @@
 import React from 'react';
 
-const Icon = ({ icon: IconComponent, size = "size-7", color = "text-[#212121]", position = "", withContainer = false }) => {
+const Icon = ({icon, size = "size-7", color = "text-icon-primary", position = "", withContainer = false}) => {
+
+  const iconElement = React.createElement(icon, {
+    className: `${size} ${color} ${position}`,
+  });
   return withContainer ? (
-    <div className={`bg-[#fceffa] rounded-full items-center justify-center p-1.5 ${position}`}>
-      <IconComponent className={`${size} ${color} `} />
+    <div className={`bg-surface-hover rounded-full flex items-center justify-center left-4 w-10 h-10 ${position}`}>
+      {iconElement}
     </div>
   ) : (
-    <IconComponent className={`${size} ${color} ${position}`} />
+    iconElement
   );
 };
 
