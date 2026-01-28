@@ -5,6 +5,7 @@ import ProductImageBox from "../../../component/product-common/ProductImageBox";
 import { ProductMeta } from "../../../component/product-common/ProductMeta";
 import { ProductTitle } from "../../../component/product-common/ProductTitle";
 import { Product } from "../../../types/product";
+import { useAddToCart } from "../../cart/hooks/useAddToCart";
 import { RatingBlock } from "./RatingBlock";
 
 interface ProductCardProps {
@@ -12,6 +13,8 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { mutate: addToCart } = useAddToCart();
+
   return (
     <BaseCard hoverType="strong" className="group overflow-hidden">
       <ProductImageBox
@@ -23,7 +26,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <CardActions>
           <button className="flex-1 bg-white/90 py-2.5 rounded-xl">View</button>
 
-          <button className="flex-1 bg-gradient-to-r from-[#E91E8C] to-[#FF6B9D] text-white py-2.5 rounded-xl">
+          <button
+            onClick={() =>
+              addToCart({
+                products: [{ id: product.id, quantity: 1 }],
+              })
+            }
+            className="flex-1 bg-gradient-to-r from-[#E91E8C] to-[#FF6B9D] text-white py-2.5 rounded-xl"
+          >
             Add
           </button>
         </CardActions>

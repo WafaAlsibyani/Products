@@ -8,21 +8,20 @@ import {
   CART_SUMMARY_BADGES,
 } from "../constants/cartSummary";
 import { getPriceDetails } from "../../../utils/getPriceDetails";
-
+import { useNavigate } from "react-router-dom";
 interface CartSummaryProps {
   totalItems: number;
   totalPrice: number;
   onCheckout?: () => void;
-  onContinueShopping?: () => void;
 }
 
 const CartSummary = ({
   totalItems,
   totalPrice,
   onCheckout,
-  onContinueShopping,
 }: CartSummaryProps) => {
   const price = getPriceDetails(totalPrice);
+  const navigate = useNavigate();
   return (
     <div className="flex justify-end">
       <div className="sticky top-24 w-full max-w-[380px] bg-white rounded-3xl border border-gray-200/60 p-6 space-y-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
@@ -78,7 +77,7 @@ const CartSummary = ({
         {/* CONTINUE */}
         <Button
           variant="outline"
-          onClick={onContinueShopping}
+          onClick={() => navigate("/")}
           className="w-full border-2 border-gray-200 hover:border-[#E91E8C] hover:bg-pink-50 py-6"
           size="lg"
         >

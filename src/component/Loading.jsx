@@ -1,8 +1,8 @@
 import React from 'react'
 
 const Loading = () => {
-    return (
- <div className="w-full h-screen flex items-center justify-center">
+  return (
+    <div className="w-full h-screen flex items-center justify-center">
       <div
         className="p-3 animate-spin flex flex-col justify-center items-center
         drop-shadow-2xl bg-linear-to-bl
@@ -11,11 +11,11 @@ const Loading = () => {
         rounded-full"
       >
         <div
-          className="rounded-full h-full w-full bg-slate-100 dark:bg-zinc-900 backdrop-blur-md"
+          className="rounded-full h-full w-full bg-slate-100  backdrop-blur-md"
         ></div>
       </div>
     </div>
-    )
+  )
 }
 
 export default Loading

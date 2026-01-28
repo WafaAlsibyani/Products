@@ -4,10 +4,11 @@ import ProductImageBox from "../../../component/product-common/ProductImageBox";
 import { ProductMeta } from "../../../component/product-common/ProductMeta";
 import { ProductTitle } from "../../../component/product-common/ProductTitle";
 import { PriceBlock } from "../../../component/product-common/PriceBlock";
-import { Product } from "../../../types/product";
+// import { Product } from "../../../types/product";
+import { CartProduct } from "../types/cart";
 
 interface CartItemCardProps {
-  product: Product;
+  product: CartProduct;
   quantity: number;
   onIncrease: () => void;
   onDecrease: () => void;

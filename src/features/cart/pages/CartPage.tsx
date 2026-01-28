@@ -1,60 +1,49 @@
 import CartItemCard from "../components/CartItem";
 import CartSummary from "../components/CartSummary";
 import EmptyCart from "../components/EmptyCart";
-import { Product } from "../../../types/product";
+// import { Cart } from "../../cart/types/cart";
+import { useProducts } from "../../products/hooks/useProducts";
 
-const mockProduct: Product = {
-  id: 1,
-  title: "Wireless Headphones",
-  description: "",
-  price: 120,
-  discountPercentage: 20,
-  rating: 4.5,
-  stock: 12,
-  brand: "Sony",
-  category: "electronics",
-  thumbnail: "https://cdn.dummyjson.com/product-images/2/1.jpg",
-};
+import { useCart } from "../hooks/useCart";
+import Loading from "../../../component/Loading";
 
 const CartPage = () => {
-  const cartItems = [
-    {
-      product: mockProduct,
-      quantity: 2,
-    },
-  ];
+  const { data: cart, isLoading } = useCart();
+  const { data: products } = useProducts();
 
-  const isEmpty = cartItems.length === 0;
+  if (isLoading) return <Loading />;
 
-  if (isEmpty) {
-    return <EmptyCart />;
-  }
+  if (!cart) return <EmptyCart />;
 
   return (
     <div className="min-h-[calc(100vh-80px)] bg-gray-50 py-8">
       <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-3 gap-8">
-        {/* LEFT - ITEMS */}
+        {/* ITEMS */}
         <div className="lg:col-span-2 space-y-4">
-          {cartItems.map((item, index) => (
-            <CartItemCard
-              key={index}
-              product={item.product}
-              quantity={item.quantity}
-              onIncrease={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-              onDecrease={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-              onRemove={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-            />
-          ))}
+          {cart.products.map((item) => {
+            const fullProduct = products?.find((p) => p.id === item.id);
+            if (!fullProduct) return null;
+            return (
+              <CartItemCard
+                key={item.id}
+                product={{
+                  ...fullProduct,
+                  ...item,
+                }}
+                quantity={item.quantity}
+                onIncrease={() => {}}
+                onDecrease={() => {}}
+                onRemove={() => {}}
+              />
+            );
+          })}
         </div>
 
-        {/* RIGHT - SUMMARY */}
-        <CartSummary totalItems={0} totalPrice={0} />
+        {/*SUMMARY */}
+        <CartSummary
+          totalItems={cart.totalQuantity}
+          totalPrice={cart.discountedTotal}
+        />
       </div>
     </div>
   );
