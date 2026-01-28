@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useProducts } from "../../../hooks/useProducts";
+import { useProducts } from "../../products/hooks/useProducts";
 import { mapCategoriesToGroups } from "../domain/category.mapper";
 
 export function useCategoryGroups() {
