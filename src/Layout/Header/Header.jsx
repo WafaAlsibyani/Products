@@ -4,13 +4,19 @@ import {MapPinIcon, UsersIcon, ShoppingCartIcon, MagnifyingGlassIcon, FunnelIcon
 import {useSearch} from '../../context/SearchContext';
 import {useToggle} from "../../hooks/useToggle";
 import {useNavigate} from "react-router-dom";
-// import SideMenu from '../../features/filters/ui/SideMenu';
+import {useCart} from "../../features/cart/hooks/useCart";
+
+import SideMenu from '../../features/filters/ui/SideMenu';
 
 
 const Header = () => {
   const {searchQuery, setSearchQuery} = useSearch();
   const navigate = useNavigate();
   const filterMenu = useToggle();
+  const {data: cart} = useCart();
+
+  const totalItems = cart?.totalQuantity ?? 0;
+
   return (
     <nav className="sticky top-0 z-50 bg-white flex py-2 px-10 items-center gap-[100px]">
 
@@ -48,11 +54,13 @@ const Header = () => {
           className="relative p-3 bg-white rounded-full border border-gray-200/50 shadow-sm hover:shadow-md hover:border-[#E91E8C] transition-all group"
         >
           <CustomIcon icon={ShoppingCartIcon} className=" text-gray-600 group-hover:text-[#E91E8C] transition-colors" />
-          {/* {totalItems > 0 && (
+          {totalItems > 0 && (
             <div className="absolute -top-1 -right-1 min-w-[1.25rem] h-5 bg-gradient-to-r from-[#E91E8C] to-[#FF6B9D] rounded-full flex items-center justify-center px-1.5 shadow-lg">
-              <span className="text-[10px] text-white" style={{fontWeight: 700}}>{totalItems}</span>
+              <span className="text-[10px] text-white font-bold">
+                {totalItems}
+              </span>
             </div>
-          )} */}
+          )}
         </button>
         <button
           onClick={filterMenu.toggle}
@@ -63,9 +71,9 @@ const Header = () => {
         </button>
 
         {/* SIDE MENU */}
-        {/* <SideMenu isOpen={filterMenu.isOpen}
-        onClose={filterMenu.close}
-      /> */}
+        <SideMenu isOpen={filterMenu.isOpen}
+          onClose={filterMenu.close}
+        />
 
       </div>
 

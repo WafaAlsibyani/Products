@@ -5,10 +5,10 @@ import { ProductMeta } from "../../../component/product-common/ProductMeta";
 import { ProductTitle } from "../../../component/product-common/ProductTitle";
 import { PriceBlock } from "../../../component/product-common/PriceBlock";
 // import { Product } from "../../../types/product";
-import { CartProduct } from "../types/cart";
+import { Product } from "../../../types/product";
 
 interface CartItemCardProps {
-  product: CartProduct;
+  product: Product;
   quantity: number;
   onIncrease: () => void;
   onDecrease: () => void;

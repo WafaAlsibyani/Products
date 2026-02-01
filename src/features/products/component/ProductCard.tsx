@@ -1,3 +1,4 @@
+import { Check, ShoppingCart } from "lucide-react";
 import BaseCard from "../../../component/product-common/BaseCard";
 import { CardActions } from "../../../component/product-common/CardActions";
 import { PriceBlock } from "../../../component/product-common/PriceBlock";
@@ -7,6 +8,7 @@ import { ProductTitle } from "../../../component/product-common/ProductTitle";
 import { Product } from "../../../types/product";
 import { useAddToCart } from "../../cart/hooks/useAddToCart";
 import { RatingBlock } from "./RatingBlock";
+import { useCart } from "../../cart/hooks/useCart";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +16,8 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { mutate: addToCart } = useAddToCart();
+  const { data: cart } = useCart();
+  const inCart = cart?.products.some((item) => item.id === product.id);
 
   return (
     <BaseCard hoverType="strong" className="group overflow-hidden">
@@ -32,9 +36,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 products: [{ id: product.id, quantity: 1 }],
               })
             }
-            className="flex-1 bg-gradient-to-r from-[#E91E8C] to-[#FF6B9D] text-white py-2.5 rounded-xl"
+            className={`flex-1 py-2.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2
+    ${
+      inCart
+        ? "bg-green-500 text-white"
+        : "bg-gradient-to-r from-[#E91E8C] to-[#FF6B9D] text-white"
+    }
+  `}
           >
-            Add
+            {inCart ? (
+              <>
+                <Check className="w-4 h-4" />
+                <span className="text-sm font-semibold">In Cart</span>
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="w-4 h-4" />
+                <span className="text-sm font-semibold">Add</span>
+              </>
+            )}
           </button>
         </CardActions>
       </ProductImageBox>

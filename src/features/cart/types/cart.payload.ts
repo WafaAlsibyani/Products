@@ -4,3 +4,12 @@ export type AddToCartPayload = {
     quantity: number;
   }[];
 };
+
+export type UpdateCartPayload = {
+  productId: number;
+  quantity: number;
+};
+
+export type RemoveFromCartPayload = {
+  productId: number;
+};

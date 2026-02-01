@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const api = axios.create({
+export const instance = axios.create({
   baseURL: "https://dummyjson.com",
+  timeout: 1000,
   headers: {
     "Content-Type": "application/json",
   },
