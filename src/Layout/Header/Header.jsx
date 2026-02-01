@@ -1,21 +1,23 @@
 import React from 'react'
 import CustomIcon from "../../component/CustomIcon"
 import {MapPinIcon, UsersIcon, ShoppingCartIcon, MagnifyingGlassIcon, FunnelIcon} from '@heroicons/react/24/outline';
-import {useSearch} from '../../context/SearchContext';
 import {useToggle} from "../../hooks/useToggle";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {useCart} from "../../features/cart/hooks/useCart";
-
 import SideMenu from '../../features/filters/ui/SideMenu';
 
 
 const Header = () => {
-  const {searchQuery, setSearchQuery} = useSearch();
   const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
   const filterMenu = useToggle();
   const {data: cart} = useCart();
 
   const totalItems = cart?.totalQuantity ?? 0;
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setParams({q: value});
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white flex py-2 px-10 items-center gap-[100px]">
@@ -40,8 +42,8 @@ const Header = () => {
         />
         <input
           type='search' name='search' id='search' placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={params.get('q') || ''}
+          onChange={handleSearch}
           className='bg-white border-[#ede2ed] rounded-full w-full pr-4 pl-16 py-4 border focus:border-[#E91E8C] shadow-lg focus:shadow-[#FBD8EB] focus:outline-none focus:border-3'
         />
 

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToCart } from "../services/cart.api";
 import type { AddToCartPayload } from "../types/cart.payload";
 import type { Cart, CartItem } from "../types/cart";
+import { instance } from "../../../services/api";
 
 export const useAddToCart = () => {
   const queryClient = useQueryClient();
@@ -26,10 +26,12 @@ export const useAddToCart = () => {
           });
         }
       });
-
-      return addToCart({
-        products: updatedProducts,
+      const res = await instance.post("/carts/add", {
+        userId: 1,
+        products: payload.products,
       });
+
+      return res.data;
     },
 
     onSuccess: (newCart) => {

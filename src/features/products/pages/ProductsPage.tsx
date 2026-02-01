@@ -1,14 +1,13 @@
 // ProductsPage.jsx
-import React, { Suspense, useMemo } from "react";
+import React, { Suspense } from "react";
 import { useProducts } from "../hooks/useProducts";
 import useSearchProducts from "../hooks/useProductsSearch";
-
-import { useSearch } from "../../../context/SearchContext";
 import Loading from "../../../component/Loading";
 import ErrorMessage from "../../../component/ErrorMessage";
 import { useCategoryFilter } from "../../../context/CategoryFilterContext";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { useFilter } from "../../filters/hooks/useFilter";
+import { useSearchParams } from "react-router-dom";
 
 // Lazy components
 const SkeletonGrid = React.lazy(
@@ -17,9 +16,10 @@ const SkeletonGrid = React.lazy(
 const ProductCard = React.lazy(() => import("../component/ProductCard"));
 
 const ProductsPage = () => {
-  const { searchQuery } = useSearch();
+  const [params] = useSearchParams();
+  const query = params.get("q") ?? "";
   const { selectedCategories } = useCategoryFilter();
-  const debouncedQuery = useDebounce(searchQuery, 300);
+  const debouncedQuery = useDebounce(query, 300);
   const normalizedQuery = debouncedQuery.toLowerCase().trim();
 
   const { data: products = [], isLoading, error } = useProducts();

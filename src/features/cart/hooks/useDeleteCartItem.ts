@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RemoveFromCartPayload } from "../types/cart.payload";
 import { Cart } from "../types/cart";
-import { updateCart } from "../services/cart.api";
+import { instance } from "../../../services/api";
+
 export const useDeleteCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -11,7 +12,12 @@ export const useDeleteCartItem = () => {
       const updatedProducts = currentCart.products.filter(
         (item) => item.id !== payload.productId,
       );
-      return updateCart(updatedProducts);
+      const res = await instance.put(`/carts/1`, {
+        // merge: true,
+        products: updatedProducts,
+      });
+
+      return res.data;
     },
     onSuccess: (newCart) => {
       queryClient.setQueryData(["cart"], newCart);

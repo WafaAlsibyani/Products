@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateCart } from "../services/cart.api";
 import { Cart, CartItem } from "../types/cart";
 import { UpdateCartPayload } from "../types/cart.payload";
+import { instance } from "../../../services/api";
 
 export const useUpdateCart = () => {
   const queryClient = useQueryClient();
@@ -15,7 +15,10 @@ export const useUpdateCart = () => {
           ? { ...item, quantity: payload.quantity }
           : item,
       );
-      return updateCart(updatedProducts);
+      const res = await instance.put(`/carts/1`, {
+        products: updatedProducts,
+      });
+      return res.data;
     },
     onSuccess: (newCart) => {
       queryClient.setQueryData(["cart"], newCart);
